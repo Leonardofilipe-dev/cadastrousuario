@@ -1,44 +1,57 @@
-///import User from "../models/registerUser.js";
-//import { response } from "express";
+import User from "../models/registerUser.js";
+
 
 class UserController{
     static async register(req, res){
         try {
-            res.send("Hello, World")
+            const{nameUser, email, password, photo} = req.body
+            let newUser = new User({nameUser, email, password, photo})
+            const result = await newUser.save()
+            res.json(result)
         } catch (error) {
-            res.status(500).json()
+            return res.status(500).json({error})
         }
     }
 
     static async list(req, res){
         try {
-            res.send("Hello, World")
+            const listUser = await User.find()
+            res.json(listUser)
+  
         } catch (error) {
-            res.status(500).json()
+            return res.status(500).json({error})
         }
     }
 
     static async seach(req, res){
         try {
-            res.send("Hello, World")
+            const id = req.params.id;
+            const user = await User.findById(id)
+            return res.status(200).json(user)
         } catch (error) {
-            res.status(500).json()
+            return res.status(500).json({error})
+            
         }
     }
 
     static async update(req, res){
         try {
-            res.send("Hello, World")
+            const id = req.params.id
+            const {nameUser, email, password, photo} = req.body
+            const userUpdate = await User.findByIdAndUpdate(id,{nameUser, email, password, photo})
+            return res.status(200).json(userUpdate)
         } catch (error) {
-            res.status(500).json()
+            return res.status(500).json({error})
         }
     }
 
     static async delete(req, res){
         try {
-            res.send("Hello, World")
+            const id = req.params.id 
+            const userDelete = await User.findByIdAndDelete(id)
+            return res.status(200).json({userDelete})
         } catch (error) {
-            res.status(500).json()
+            return res.status(500).json({error})
         }
     }
 }
