@@ -7,7 +7,7 @@ class UserController {
         try {
             const { nameUser, email, password, photo } = req.body
             let passwordHash = bcrypt.hashSync(password)
-            let newUser = new User({ nameUser, email, password: passwordHash, photo })
+            let newUser = new User({ nameUser, email, password: passwordHash, photo: req.file.filename})
 
             const result = await newUser.save()
             res.json(result)
