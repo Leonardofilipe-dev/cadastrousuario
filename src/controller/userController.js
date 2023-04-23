@@ -5,9 +5,13 @@ import bcrypt from "bcryptjs"
 class UserController {
     static async register(req, res) {
         try {
+            console.log("teste")
+            console.log(req.body)
+            console.log("teste")
             const { nameUser, email, password, photo } = req.body
+            
             let passwordHash = bcrypt.hashSync(password)
-            let newUser = new User({ nameUser, email, password: passwordHash, photo: req.file.filename})
+            let newUser = new User({ nameUser, email, password: passwordHash, photo:req.file.filename})
 
             const result = await newUser.save()
             res.json(result)
